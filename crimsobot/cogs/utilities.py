@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import random
 from datetime import datetime
 from typing import List, Optional, Tuple
 
@@ -169,8 +170,12 @@ class Utilities(commands.Cog):
         await msg.edit(content='<:ping:569954524932997122>...{:d}ms'.format(int(ping)))
 
     @commands.command()
-    async def color(self, ctx: commands.Context, hex_value: discord.Colour) -> None:
-        """Get color sample from hex value."""
+    async def color(self, ctx: commands.Context, hex_value: Optional[discord.Colour] = None) -> None:
+        """Get color sample from hex value. Or a random one!"""
+
+        if hex_value is None:
+            random_int = random.randint(0, 0xFFFFFF)
+            hex_value = discord.Colour(random_int)
 
         fp = imagetools.make_color_img(str(hex_value))
         await ctx.send(
